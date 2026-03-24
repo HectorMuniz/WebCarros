@@ -9,6 +9,7 @@ import {getDoc, doc} from "firebase/firestore"
 
 import {Swiper, SwiperSlide} from 'swiper/react'
 
+
 interface CarProps{
     id: string;
     name: string;
@@ -34,7 +35,7 @@ interface ImageProps{
 export function CarDetail(){
     const {id} = useParams();
     const [car, setCar] = useState<CarProps>()
-    const [sliderPreView, setSliderPreView] = useState<Number>(2)
+    const [sliderPreView, setSliderPreView] = useState<number>(2)
     const navigate = useNavigate()
     
     useEffect(() => {
@@ -97,7 +98,7 @@ export function CarDetail(){
         <Container>
 
             {car && (
-                <Swiper
+            <Swiper
             slidesPerView={sliderPreView}
             pagination={{clickable: true}}
             navigation>
