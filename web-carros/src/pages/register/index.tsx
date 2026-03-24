@@ -14,6 +14,9 @@ import { createUserWithEmailAndPassword, updateProfile, signOut } from 'firebase
 import {useContext} from 'react'
 import {AuthContext} from '../../context/AuthContext'
 
+
+import toast from 'react-hot-toast'
+
 const schema = z.object({
     name: z.string().nonempty("O campo de nome é obrigatório"),
     email: z.string().nonempty('O campo de email é obrigatório').email("Insira um email valido..."),
@@ -58,10 +61,12 @@ export function Register(){
             })
 
             console.log('Cadastro realizado com sucesso')
+            toast.success("Cadastro realizado com sucesso!")
             navigate('/dashboard', {replace: true})
         })
         .catch((error) => {
             console.log('error ao cadastrar')
+            toast.error("Erro ao cadastrar, tente novamente...")
             console.log(error) 
         })
     }

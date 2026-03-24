@@ -19,6 +19,8 @@ import {
 
 import {addDoc, collection} from 'firebase/firestore'
 
+import toast from 'react-hot-toast'
+
 const schema = z.object({
     name: z.string().nonempty("O campo nome é obrigatorio"),
     model: z.string().nonempty("O modelo é obrigatorio"),
@@ -60,6 +62,7 @@ export function NewCar(){
                 await handleUpload(image)
             }else{
                 alert("Envie uma imagem jpeg ou png")
+                return;
             }
         }
     }
@@ -86,6 +89,7 @@ export function NewCar(){
                 setCarImage((images) => [
                     ...images, imageItem
                 ])
+                toast.success("Imagem enviada com sucesso!")
             })
         })
 
@@ -93,7 +97,7 @@ export function NewCar(){
 
     function onSubmit(data: FormData){
         if(carImage.length === 0){
-            alert("Envie alguma imagem deste carro")
+            toast.error("Envie pelo menos uma imagem!")
             return;
         }
 
@@ -106,7 +110,7 @@ export function NewCar(){
         })
 
         addDoc(collection(db, "cars"), {
-            name: data.name,
+            name: data.name.toUpperCase(),
             model: data.model,
             year: data.year,
             km: data.km,
@@ -123,10 +127,12 @@ export function NewCar(){
             reset();
             setCarImage([]);
             console.log("Cadastrado com sucesso")
+            toast.success("Carro cadastrado com sucesso!")
 
         })
         .catch((error) => {
             console.log("Deu erro ao cadastrar" + error)
+            toast.error("Erro ao cadastrar o carro, tente novamente...")
         })
 
         
